@@ -1,6 +1,5 @@
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include "AdptArray.h"
 
 
@@ -40,8 +39,10 @@ Result SetAdptArrayAt(PAdptArray pArr, int idx, PElement pNewElem) {
     }
 
     // Delete Previous Elem
-    if ((pArr->pElemArr)[idx] != NULL){
-        pArr->delFunc((pArr->pElemArr)[idx]);
+    if ((pArr->pElemArr)[idx] != NULL) {
+        PElement *pElement = (pArr->pElemArr)[idx];
+        free((pArr->pElemArr)[idx]);
+        pArr->delFunc(pElement);
     }
     (pArr->pElemArr)[idx] = pArr->copyFunc(pNewElem);
 
@@ -55,7 +56,7 @@ void DeleteAdptArray(PAdptArray pArr) {
     if (pArr == NULL)
         return;
     for (i = 0; i < pArr->ArrSize; ++i) {
-        if ((pArr->pElemArr)[i] != NULL){
+        if ((pArr->pElemArr)[i] != NULL) {
             pArr->delFunc((pArr->pElemArr)[i]);
         }
 
@@ -65,9 +66,14 @@ void DeleteAdptArray(PAdptArray pArr) {
 }
 
 PElement GetAdptArrayAt(PAdptArray pArr, int idx) {
-    if (pArr == NULL || idx >= pArr->ArrSize)
+    PElement pElement = NULL;
+    if (pArr == NULL || idx >= pArr->ArrSize){
         return NULL;
-    return pArr->pElemArr[idx];
+    }
+    if ((pArr->pElemArr)[idx] != NULL){
+        pElement = pArr->copyFunc((pArr->pElemArr)[idx]);
+    }
+    return pElement;
 }
 
 
@@ -79,11 +85,12 @@ int GetAdptArraySize(PAdptArray pArr) {
 
 
 void PrintDB(PAdptArray pArr) {
-    int i;
-    if (pArr == NULL)
+    if (pArr == NULL) {
         return;
+    }
+    int i;
     for (i = 0; i < pArr->ArrSize; ++i) {
-        if ((pArr->pElemArr)[i] != NULL){
+        if ((pArr->pElemArr)[i] != NULL) {
             pArr->printFunc((pArr->pElemArr)[i]);
         }
     }
