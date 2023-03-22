@@ -31,8 +31,7 @@ Result SetAdptArrayAt(PAdptArray pArr, int idx, PElement pNewElem) {
         return FAIL;
 
     if (idx >= pArr->ArrSize) {
-
-// Extend Array
+        // Extend Array
         if ((newpElemArr = (PElement *) calloc((idx + 1), sizeof(PElement))) == NULL)
             return FAIL;
         memcpy(newpElemArr, pArr->pElemArr, (pArr->ArrSize) * sizeof(PElement));
@@ -43,8 +42,8 @@ Result SetAdptArrayAt(PAdptArray pArr, int idx, PElement pNewElem) {
     // Delete Previous Elem
     if ((pArr->pElemArr)[idx] != NULL){
         pArr->delFunc((pArr->pElemArr)[idx]);
-        (pArr->pElemArr)[idx] = pArr->copyFunc(pNewElem);
     }
+    (pArr->pElemArr)[idx] = pArr->copyFunc(pNewElem);
 
     // Update Array Size
     pArr->ArrSize = (idx >= pArr->ArrSize) ? (idx + 1) : pArr->ArrSize;
@@ -56,7 +55,9 @@ void DeleteAdptArray(PAdptArray pArr) {
     if (pArr == NULL)
         return;
     for (i = 0; i < pArr->ArrSize; ++i) {
-        pArr->delFunc((pArr->pElemArr)[i]);
+        if ((pArr->pElemArr)[i] != NULL){
+            pArr->delFunc((pArr->pElemArr)[i]);
+        }
     }
     free(pArr->pElemArr);
     free(pArr);
@@ -81,7 +82,9 @@ void PrintDB(PAdptArray pArr) {
     if (pArr == NULL)
         return;
     for (i = 0; i < pArr->ArrSize; ++i) {
-        pArr->printFunc((pArr->pElemArr)[i]);
+        if ((pArr->pElemArr)[i] != NULL){
+            pArr->printFunc((pArr->pElemArr)[i]);
+        }
     }
 }
 

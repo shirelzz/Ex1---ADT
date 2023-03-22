@@ -24,7 +24,7 @@ int main() {
 	pbook b = GetAdptArrayAt(mybooks,4); // should return null;
 	assert(b==NULL); // doesn't fail
 	b = GetAdptArrayAt(mybooks,3);
-	printf("the book is %s\n",b->name); //should print "Harry Potter"
+    printf("the book is %s\n",b->name); //should print "Harry Potter"
 	PrintDB(mybooks);
 
 	pperson p1 = creat_person("Harry","Potter", 934);
