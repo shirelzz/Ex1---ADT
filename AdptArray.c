@@ -41,8 +41,10 @@ Result SetAdptArrayAt(PAdptArray pArr, int idx, PElement pNewElem) {
     }
 
     // Delete Previous Elem
-    pArr->delFunc((pArr->pElemArr)[idx]);
-    (pArr->pElemArr)[idx] = pArr->copyFunc(pNewElem);
+    if ((pArr->pElemArr)[idx] != NULL){
+        pArr->delFunc((pArr->pElemArr)[idx]);
+        (pArr->pElemArr)[idx] = pArr->copyFunc(pNewElem);
+    }
 
     // Update Array Size
     pArr->ArrSize = (idx >= pArr->ArrSize) ? (idx + 1) : pArr->ArrSize;
