@@ -58,6 +58,7 @@ void DeleteAdptArray(PAdptArray pArr) {
         if ((pArr->pElemArr)[i] != NULL){
             pArr->delFunc((pArr->pElemArr)[i]);
         }
+
     }
     free(pArr->pElemArr);
     free(pArr);
